@@ -37,9 +37,14 @@ Add **EasyInjector** in your project with **Maven** or **Gradle** :
 <summary>Maven</summary>
 
 ```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+
 <dependency>
-    <groupId>com.example</groupId>
-    <artifactId>easy-injector</artifactId>
+    <groupId>com.github.Neutron-Pro</groupId>
+    <artifactId>easy-java-injector</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -50,7 +55,13 @@ Add **EasyInjector** in your project with **Maven** or **Gradle** :
 <summary>Gradle</summary>
 
 ```gradle
-implementation "com.example:easy-injector:1.0.0"
+repositories {
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    implementation "com.github.Neutron-Pro:easy-java-injector:1.0.0"
+}
 ```
 
 </details>
