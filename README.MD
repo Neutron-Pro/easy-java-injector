@@ -1,5 +1,7 @@
 # Easy Injector
 
+![Java CI](https://github.com/neutron-pro/easy-java-injector/actions/workflows/test.yml/badge.svg)
+
 A lightweight and extensible **Dependency Injection (DI)** framework for Java.  
 Designed to be simple, modular, and flexible, it supports **scanning, adapters, scopes, and filtering** to fit various environments (Bukkit plugins, microservices, standalone apps, etc.).
 
