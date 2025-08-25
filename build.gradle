@@ -1,9 +1,16 @@
 plugins {
-    id 'java'
+    id 'java-library'
+    id 'maven-publish'
+    id 'org.jreleaser' version '1.19.0'
 }
 
-group = 'fr.neutronstars'
-version = '1.0-SNAPSHOT'
+project.group = 'fr.neutronstars'
+project.version = '1.0.0.rc1'
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
 repositories {
     mavenCentral()
@@ -16,4 +23,64 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = project.group
+            artifactId = project.name
+            version = project.version
+
+            from components.java
+
+            pom {
+                name = findProperty('maven.name')
+                description = findProperty('maven.description')
+                url = findProperty('maven.github.url')
+                inceptionYear = findProperty('inception.year')
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'neutron'
+                        name = 'Neutron-Pro'
+                    }
+                }
+                scm {
+                    connection = findProperty('maven.github.scm.connection')
+                    developerConnection = findProperty('maven.github.scm.connection.ssh')
+                    url = findProperty('maven.github.url')
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url = layout.buildDirectory.dir('staging-deploy')
+        }
+    }
+}
+
+jreleaser {
+    signing {
+        active = 'ALWAYS'
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository('build/staging-deploy')
+                }
+            }
+        }
+    }
 }
