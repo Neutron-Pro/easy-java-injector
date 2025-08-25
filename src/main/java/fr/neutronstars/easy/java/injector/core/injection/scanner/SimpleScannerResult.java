@@ -24,6 +24,7 @@ public class SimpleScannerResult implements ScannerResult {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void inject() {
         for (final Provider<?> provider : this.providers) {
             this.injector.adapters().find(provider.type())

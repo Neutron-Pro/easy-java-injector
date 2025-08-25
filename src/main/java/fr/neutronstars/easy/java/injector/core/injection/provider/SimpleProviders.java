@@ -19,6 +19,7 @@ public class SimpleProviders implements Providers {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> Provider<T> of(Class<T> clazz) {
         return (Provider<T>) this.providerMap.get(clazz);
     }
