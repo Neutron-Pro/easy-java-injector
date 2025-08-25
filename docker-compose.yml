@@ -1,0 +1,60 @@
+services:
+  test_java_8:
+    image: gradle:8.9-jdk8
+    working_dir: /app
+    volumes:
+      - ./gradle:/app/gradle
+      - ./src:/app/src
+      - ./build.gradle:/app/build.gradle
+      - ./gradlew:/app/gradlew
+      - ./settings.gradle:/app/settings.gradle
+      - ./.reports/java8/:/app
+    command: gradle clean classes test --no-daemon
+
+  test_java_11:
+    image: gradle:8.9-jdk11
+    working_dir: /app
+    volumes:
+      - ./gradle:/app/gradle
+      - ./src:/app/src
+      - ./build.gradle:/app/build.gradle
+      - ./gradlew:/app/gradlew
+      - ./settings.gradle:/app/settings.gradle
+      - ./.reports/java11/:/app
+    command: gradle clean classes test --no-daemon
+
+  test_java_17:
+    image: gradle:8.9-jdk17
+    working_dir: /app
+    volumes:
+      - ./gradle:/app/gradle
+      - ./src:/app/src
+      - ./build.gradle:/app/build.gradle
+      - ./gradlew:/app/gradlew
+      - ./settings.gradle:/app/settings.gradle
+      - ./.reports/java17/:/app
+    command: gradle clean classes test --no-daemon
+
+  test_java_21:
+    image: gradle:8.9-jdk21
+    working_dir: /app
+    volumes:
+      - ./gradle:/app/gradle
+      - ./src:/app/src
+      - ./build.gradle:/app/build.gradle
+      - ./gradlew:/app/gradlew
+      - ./settings.gradle:/app/settings.gradle
+      - ./.reports/java21/:/app
+    command: gradle clean classes test --no-daemon
+
+  test_java_22:
+    image: gradle:8.9-jdk22
+    working_dir: /app
+    volumes:
+      - ./gradle:/app/gradle
+      - ./src:/app/src
+      - ./build.gradle:/app/build.gradle
+      - ./gradlew:/app/gradlew
+      - ./settings.gradle:/app/settings.gradle
+      - ./.reports/java22/:/app
+    command: gradle clean classes test --no-daemon

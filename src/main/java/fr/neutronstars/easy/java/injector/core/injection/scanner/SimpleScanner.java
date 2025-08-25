@@ -26,6 +26,7 @@ public class SimpleScanner implements Scanner {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void scan(ClassLoader classLoader, String packageRoot) {
         final Set<Class<?>> classes = this.resolver.classes(classLoader, packageRoot);
 

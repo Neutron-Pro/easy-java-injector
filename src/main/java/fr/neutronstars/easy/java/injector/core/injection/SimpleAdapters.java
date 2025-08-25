@@ -17,6 +17,7 @@ public class SimpleAdapters implements Adapters {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> Adapter<T> of(Class<T> clazz) {
         return (Adapter<T>) this.adapterMap.get(clazz);
     }

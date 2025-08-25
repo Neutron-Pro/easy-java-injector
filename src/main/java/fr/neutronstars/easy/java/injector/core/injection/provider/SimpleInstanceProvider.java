@@ -22,6 +22,7 @@ public class SimpleInstanceProvider<T> implements Provider<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Class<? extends T> implType() {
         return (Class<? extends T>) this.instance.getClass();
     }
