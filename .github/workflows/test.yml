@@ -59,13 +59,13 @@ jobs:
       matrix:
         java: [25, 26, 27]
 
-    name: Build & Test Java ${{ matrix.java }} (Gradle 9.8)
+    name: Build & Test Java ${{ matrix.java }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
@@ -80,13 +80,13 @@ jobs:
           key: gradle-nextgen-${{ runner.os }}-${{ matrix.java }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: gradle-nextgen-${{ runner.os }}-${{ matrix.java }}-
 
-      - name: Force Gradle 9.8 wrapper for Next-Gen Java
-        run: ./gradlew wrapper --gradle-version 9.8.0
+      - name: Set Gradle wrapper to 9.8
+        run: gradle wrapper --gradle-version 9.8.0 --distribution-type bin
 
-      - name: Build project (Gradle 9.8)
+      - name: Build project under Java ${{ matrix.java }}
         run: ./gradlew build --no-daemon
 
-      - name: Run tests (Gradle 9.8)
+      - name: Run tests under Java ${{ matrix.java }}
         run: ./gradlew test --no-daemon
 
       - name: Test report
