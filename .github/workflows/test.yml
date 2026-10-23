@@ -9,11 +9,13 @@ on:
       - develop
 
 jobs:
-  build:
+  build-standard:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         java: [8, 11, 17, 21, 23, 24]
+
     name: Build & Test Java ${{ matrix.java }}
 
     steps:
@@ -32,8 +34,8 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: gradle-${{ runner.os }}-
+          key: gradle-standard-${{ runner.os }}-${{ matrix.java }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-standard-${{ runner.os }}-${{ matrix.java }}-
 
       - name: Build project
         run: ./gradlew build --no-daemon
@@ -42,4 +44,56 @@ jobs:
         run: ./gradlew test --no-daemon
 
       - name: Test report
-        run: cat build/reports/tests/test/index.html
+        if: always()
+        run: |
+          if [ -f build/reports/tests/test/index.html ]; then
+            cat build/reports/tests/test/index.html
+          else
+            echo "No test report found"
+          fi
+
+  build-nextgen:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [25, 26, 27]
+
+    name: Build & Test Java ${{ matrix.java }} (Gradle 9.8)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'temurin'
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-nextgen-${{ runner.os }}-${{ matrix.java }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: gradle-nextgen-${{ runner.os }}-${{ matrix.java }}-
+
+      - name: Force Gradle 9.8 wrapper for Next-Gen Java
+        run: ./gradlew wrapper --gradle-version 9.8.0
+
+      - name: Build project (Gradle 9.8)
+        run: ./gradlew build --no-daemon
+
+      - name: Run tests (Gradle 9.8)
+        run: ./gradlew test --no-daemon
+
+      - name: Test report
+        if: always()
+        run: |
+          if [ -f build/reports/tests/test/index.html ]; then
+            cat build/reports/tests/test/index.html
+          else
+            echo "No test report found"
+          fi
